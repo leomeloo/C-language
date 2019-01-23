@@ -22,13 +22,15 @@ int main ()
 			peso_ideal = (72.7*alt)-58;
 			printf("\n Peso ideal: %2.1fkg",peso_ideal);
 		}
-	else
-		if (sexo == 'f' || sexo == 'F'){
+	else if (sexo == 'f' || sexo == 'F'){
 			peso_ideal=(62.1*alt)-44.7;
 			printf("\n Peso ideal: %2.1fkg",peso_ideal);
-		}
+		}		
+	else 
+		printf("Sexo invÃ¡lido, tente novamente !");
+	
 	system("pause > null");
 }
     /*Leonardo Melo
     RA: 3287.2411.5834
-    Sistemas de Informação 2ºS*/
+    Sistemas de InformaÃ§Ã£o 2ÂºS*/
