@@ -1,0 +1,470 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <conio.h>
+#include <ctype.h>
+#include <string.h>
+
+/*  Objetivo do programa:
+        Lançar a quantidade de exames feitos por um médico, em especificas unidades e dias do mês.*/
+
+int opcao, i;
+
+struct reg_exames
+{
+    int dia;
+    int exames;
+    char mes[13];
+};
+
+
+struct reg_exames examesguilherme[50];
+struct reg_exames examesrodrigo[50];
+struct reg_exames exameskaren[50];
+struct reg_exames examesfabricia[50];
+
+FILE *pontarq;
+
+int criar();
+int cadastrar();
+int pesquisar();
+int relatorio();
+
+int main()
+{
+    setlocale(LC_ALL,"Portuguese");
+    int opcao;
+
+        printf("\n\tObjetivo do programa:");
+        printf("\n\t\tLançar a quantidade de exames feitos por um médico, em especificas unidades e dias do mês.");
+
+        printf("\n\n\tATENÇAO:");
+        printf("\n\t\tEstá versão é limitada para 4 exames por mês no registro.");
+        printf("\n\t\tPara adquirir a versão completa do programa, entre em contato com o admnistrador");
+
+        printf("\n\n\n\n\n\nPressione qualquer tecla para continuar..");
+        getch();
+
+
+    do
+    {
+        system("cls");
+        printf("\n\tMenu");
+
+        printf("\n[1] Criar novo arquivo de lançamento");
+        printf("\n[2] Inserir dados no arquivo criado.");
+        printf("\n[3] Relatório geral");
+        printf("\n[4] Fim");
+
+
+        printf("\nEscolha a sua opcao: ");
+        scanf("%d",&opcao);
+
+        switch(opcao)
+        {
+        case 1:
+            criar();
+            break;
+
+        case 2:
+            cadastrar();
+            break;
+
+        case 3:
+            relatorio();
+            break;
+
+        case 4:
+            printf("\n Precione qualquer tecla para encerrar o programa...");
+            break;
+
+        default :
+            printf("\n Opcao invalida !");
+        }
+        getch();
+    }
+    while(opcao != 4);
+}
+
+
+criar()
+{
+    setlocale(LC_ALL,"");
+
+    pontarq = fopen("EXAMES.DAT","w");
+
+    if (pontarq == NULL)
+        printf("\n Erro na abertura do arquivo !");
+
+    printf("\n Arquivo criado com sucesso.");
+    getch();
+
+    fclose(pontarq);
+    return(0);
+}
+
+cadastrar()
+{
+    setlocale(LC_ALL,"");
+    char continuar;
+
+    pontarq = fopen("EXAMES.DAT","a");
+    if (pontarq == NULL)
+        printf("\n Erro na abertura do arquivo !");
+
+    do
+    {
+        system("cls");
+        printf("\n\t* LANCAMENTO DE EXAMES *");
+        printf("\n[1]Santo Amaro");
+        printf("\n[2]Sao Matheus");
+        printf("\n[3]Voltar");
+
+        printf("\nDigite o numero da Arena desejada: ");
+        scanf("%d", &opcao);
+
+        switch (opcao)
+        {
+        case 1://Arena Santo Amaro
+            do
+            {
+                system("cls");
+                printf("\n\t* Arena Santo Amaro *\n");
+                printf("\n[1]Dr. Guilherme");
+                printf("\n[2]Dr. Rodrigo");
+                printf("\n[3]Voltar");
+
+                printf("\nEscolha o medico desejado: ");
+                scanf("%d", &opcao);
+
+                switch (opcao)
+                {
+                case 1://Dr. Guilherme
+                    i=0;//ESTE INDICE É NECESSARIO PARA O SISTEMA RODAR NA VERSÃO LIMITADA.. PRETENDO MELHORAR A VERSÃO.
+                    do
+                    {
+                        printf("\n\t Digite o mes em que o exame foi realizado: ");
+                        fflush(stdin);
+                        gets(examesguilherme[i].mes);
+                        fwrite(&examesguilherme[i].mes, sizeof(char),50,pontarq);
+
+                        do//consistencia
+                        {
+                            printf("\n\t Em qual dia de %s foi realizado? ", examesguilherme[i].mes);
+                            scanf("%d", &examesguilherme[i].dia);
+                            fwrite(&examesguilherme[i].dia, sizeof(int),50,pontarq);
+                        }
+                        while(examesguilherme[i].dia < 1 || examesguilherme[i].dia > 31);
+
+
+                        do//consistencia
+                        {
+                            printf("\n\t Digite a quantidade de exames feito no dia %d de %s: ", examesguilherme[i].dia, examesguilherme[i].mes);
+                            scanf("%d", &examesguilherme[i].exames);
+                            fwrite(&examesguilherme[i].exames, sizeof(int),50,pontarq);
+                        }
+                        while(examesguilherme[i].exames < 1);
+
+                        i++;
+
+                        do//consistencia
+                        {
+                            printf("\n Deseja continuar? 's' para Sim e 'n' para Não\n");
+                            fflush(stdin);
+                            scanf("%c", &continuar);
+                            continuar = tolower(continuar);
+                        }
+                        while (continuar != 's' && continuar != 'n');
+                    }
+                    while(continuar == 's');
+
+                    printf("\nExames lancados com sucesso !");
+                    getch();
+                    break;
+
+                case 2://Dr. Rodrigo
+                    i=0;//ESTE INDICE É NECESSARIO PARA O SISTEMA RODAR NA VERSÃO LIMITADA.. PRETENDO MELHORAR A VERSÃO.
+                    do
+                    {
+                        printf("\n\t Digite o mês em que o exame foi realizado: ");
+                        fflush(stdin);
+                        gets(examesrodrigo[i].mes);
+                        fwrite(&examesrodrigo[i].mes, sizeof(char),50,pontarq);
+
+                        do//consistencia
+                        {
+                            printf("\n\t Em qual dia de %s foi realizado? ", examesrodrigo[i].mes);;
+                            scanf("%d", &examesrodrigo[i].dia);
+                            fwrite(&examesrodrigo[i].dia, sizeof(int),50,pontarq);
+                        }
+                        while(examesrodrigo[i].dia < 1 || examesrodrigo[i].dia > 31);
+
+
+                        do//consistencia
+                        {
+                            printf("\n\t Digite a quantidade de exames feito no dia %d de %s: ", examesrodrigo[i].dia, examesrodrigo[i].mes);
+                            scanf("%d", &examesrodrigo[i].exames);
+                            fwrite(&examesrodrigo[i].exames, sizeof(int),50,pontarq);
+                        }
+                        while(examesrodrigo[i].exames < 1);
+
+                        i++;
+
+                        do//consistencia
+                        {
+                            printf("\n Deseja continuar? 's' para Sim e 'n' para Não\n");
+                            fflush(stdin);
+                            scanf("%c", &continuar);
+                            continuar = tolower(continuar);
+                        }
+                        while (continuar != 's' && continuar != 'n');
+                    }
+                    while(continuar == 's');
+
+                    printf("\nExames lancados com sucesso !");
+                    getch();
+                    break;
+
+                case 3:
+                    printf("\nPrecione enter para voltar...");
+                    break;
+
+                default:
+                    printf("\nOpcao invalida !");
+                    break;
+                }
+            }
+            while(opcao != 3);
+            getch();
+            break;
+
+        case 2: //Arena São Matheus
+            do
+            {
+                system("cls");
+                printf("\n\t* Arena São Matheus *\n");
+                printf("\n[1]Dra. Karen");
+                printf("\n[2]Dra. Fabricia");
+                printf("\n[3]Voltar");
+
+                printf("\nEscolha o medico desejado: ");
+                scanf("%d", &opcao);
+
+                switch (opcao)
+                {
+                case 1://Dra. Karen
+                    i=0;//ESTE INDICE É NECESSARIO PARA O SISTEMA RODAR NA VERSÃO LIMITADA.. PRETENDO MELHORAR A VERSÃO.
+                    do
+                    {
+                        printf("\n\t Digite o mes em que o exame foi realizado: ");
+                        fflush(stdin);
+                        gets(exameskaren[i].mes);
+                        fwrite(&exameskaren[i].mes, sizeof(char),50,pontarq);
+
+                        do//consistencia
+                        {
+                            printf("\n\t Em qual dia de %s foi realizado? ", exameskaren[i].mes);;
+                            scanf("%d", &exameskaren[i].dia);
+                            fwrite(&exameskaren[i].dia, sizeof(int),50,pontarq);
+                        }
+                        while(exameskaren[i].dia < 1 || exameskaren[i].dia > 31);
+
+
+                        do//consistencia
+                        {
+                            printf("\n\t Digite a quantidade de exames feito no dia %d de %s: ", exameskaren[i].dia, exameskaren[i].mes);
+                            scanf("%d", &exameskaren[i].exames);
+                            fwrite(&exameskaren[i].exames, sizeof(int),50,pontarq);
+                        }
+                        while(exameskaren[i].exames < 1);
+
+                        i++;
+
+                        do//consistencia
+                        {
+                            printf("\n Deseja continuar? 's' para Sim e 'n' para Não\n");
+                            fflush(stdin);
+                            scanf("%c", &continuar);
+                            continuar = tolower(continuar);
+                        }
+                        while (continuar != 's' && continuar != 'n');
+                    }
+                    while(continuar == 's');
+
+                    printf("\nExames lancados com sucesso !");
+                    getch();
+                    break;
+
+                case 2://Dra. Fabricia
+                    i=0;//ESTE INDICE É NECESSARIO PARA O SISTEMA RODAR NA VERSÃO LIMITADA.. PRETENDO MELHORAR A VERSÃO.
+                    do
+                    {
+                        printf("\n\t Digite o mes em que o exame foi realizado: ");
+                        fflush(stdin);
+                        gets(examesfabricia[i].mes);
+                        fwrite(&examesfabricia[i].mes, sizeof(char),50,pontarq);
+
+                        do//consistencia
+                        {
+                            printf("\n\t Em qual dia de %s foi realizado? ", examesfabricia[i].mes);;
+                            scanf("%d", &examesfabricia[i].dia);
+                            fwrite(&examesfabricia[i].dia, sizeof(int),50,pontarq);
+                        }
+                        while(examesfabricia[i].dia < 1 || examesfabricia[i].dia > 31);
+
+
+                        do//consistencia
+                        {
+                            printf("\n\t Digite a quantidade de exames feito no dia %d de %s: ", examesfabricia[i].dia, examesfabricia[i].mes);
+                            scanf("%d", &examesfabricia[i].exames);
+                            fwrite(&examesfabricia[i].exames, sizeof(int),50,pontarq);
+                        }
+                        while(examesfabricia[i].exames < 1);
+
+                        i++;
+
+                        do//consistencia
+                        {
+                            printf("\n Deseja continuar? 's' para Sim e 'n' para Não\n");
+                            fflush(stdin);
+                            scanf("%c", &continuar);
+                            continuar = tolower(continuar);
+                        }
+                        while (continuar != 's' && continuar != 'n');
+                    }
+                    while(continuar == 's');
+
+                    printf("\nExames lancados com sucesso !");
+                    getch();
+                    break;
+
+                case 3:
+                    printf("\nPrecione enter para voltar...");
+                    break;
+
+                default:
+                    printf("opcao invalida");
+                    break;
+                }
+
+
+        }
+        while(opcao != 3);
+        break;
+
+    case 3:
+        printf("\nPrecione enter para voltar...");
+        break;
+
+    default:
+        printf("Opção invalida !");
+        break;
+    }
+}
+while(opcao != 3);
+
+getch();
+
+fclose(pontarq);
+return(0);
+}
+
+relatorio()
+{
+    setlocale(LC_ALL,"");
+    printf("\n\t Relatório geral \n\n");
+    pontarq = fopen("EXAMES.DAT","r");
+
+    do
+    {
+        system("cls");
+
+        printf("\n[1]Santo Amaro ");
+        printf("\n[2]Sao Matheus ");
+        printf("\n[3]Voltar ");
+
+        printf("\nDigite a arena desejada: ");
+        scanf("%d",&opcao);
+
+        switch (opcao)
+        {
+        case 1:
+            system("cls");
+            printf("\n\t - RELATORIOS DE SANTO AMARO -\n");
+
+            printf("\n\tDr. Guilherme:");
+            for(i=0; i<=3; i++)//ATENÇÃO -> Mostrará os dados de 4 exames, cadastrando eles ou não.
+            {
+                fread(&examesguilherme[i].mes,sizeof(char),50,pontarq);
+                printf("\n Mes: %s", examesguilherme[i].mes);
+
+                fread(&examesguilherme[i].dia,sizeof(int),50,pontarq);
+                printf("\n Dia: %d", examesguilherme[i].dia);
+
+                fread(&examesguilherme[i].exames,sizeof(int),50,pontarq);
+                printf("\n Exames: %d\n", examesguilherme[i].exames);
+            }
+
+            printf("\n\tDr. Rodrigo:");
+            for(i=0; i<=3; i++)//ATENÇÃO -> Mostrará os dados de 4 exames, cadastrando eles ou não.
+            {
+                fread(&examesrodrigo[i].mes,sizeof(char),50,pontarq);
+                printf("\n Mes: %s", examesrodrigo[i].mes);
+
+                fread(&examesrodrigo[i].dia,sizeof(int),50,pontarq);
+                printf("\n Dia: %d", examesrodrigo[i].dia);
+
+                fread(&examesrodrigo[i].exames,sizeof(int),50,pontarq);
+                printf("\n Exames: %d\n", examesrodrigo[i].exames);
+            }
+
+            getch();
+            break;
+
+        case 2:
+            system("cls");
+            printf("\n\t - RELATORIOS DE SÃO MATHEUS -\n");
+
+            printf("\n\tDr. Karen:");
+            for(i=0; i<=3; i++)//ATENÇÃO -> Mostrará os dados de 4 exames, cadastrando eles ou não.
+            {
+                fread(&exameskaren[i].mes,sizeof(char),50,pontarq);
+                printf("\n Mes: %s", exameskaren[i].mes);
+
+                fread(&exameskaren[i].dia,sizeof(int),50,pontarq);
+                printf("\n Dia: %d", exameskaren[i].dia);
+
+                fread(&exameskaren[i].exames,sizeof(int),50,pontarq);
+                printf("\n Exames: %d\n", exameskaren[i].exames);
+            }
+
+            printf("\n\tDra. Fabricia:");
+            for(i=0; i<=3; i++)//ATENÇÃO -> Mostrará os dados de 4 exames, cadastrando eles ou não.
+            {
+                fread(&examesfabricia[i].mes,sizeof(char),50,pontarq);
+                printf("\n Mes: %s", examesfabricia[i].mes);
+
+                fread(&examesfabricia[i].dia,sizeof(int),50,pontarq);
+                printf("\n Dia: %d", examesfabricia[i].dia);
+
+                fread(&examesfabricia[i].exames,sizeof(int),50,pontarq);
+                printf("\n Exames: %d\n", examesfabricia[i].exames);
+            }
+
+            getch();
+            break;
+
+        case 3:
+            printf("\nPrecione enter para voltar...");
+            break;
+
+        default:
+            printf("\n Opcao invalida !");
+        }
+    }
+    while(opcao != 3);
+    getch();
+
+    fclose(pontarq);
+    return(0);
+}
