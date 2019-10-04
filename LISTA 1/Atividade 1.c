@@ -4,6 +4,8 @@
 /*1-Dado 2 números, calcular as quatro operações aritméticas
   e mostrar os resultados na tela.*/
 
+/*VAI CORINTHIANS!*/
+
 int main()
 {
     int x,y,soma, mult, div, sub;
